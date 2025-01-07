@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using BveEx.Extensions.Native;
 using BveEx.PluginHost;
 using BveEx.PluginHost.Plugins;
 using BveTypes.ClassWrappers;
 using Mackoy.Bvets;
+using System.Xml.Serialization;
 
 namespace Akashiyaki01c.PlatformDoorPlugin
 {
@@ -24,6 +26,8 @@ namespace Akashiyaki01c.PlatformDoorPlugin
         // ホームドア音源
         private Sound OpenSound;
         private Sound CloseSound;
+
+        private Settings Settings;
 
         private bool _zaisenKenchi = false;
         /// <summary> 在線検知信号 </summary>
@@ -98,25 +102,36 @@ namespace Akashiyaki01c.PlatformDoorPlugin
 
         public PlatformDoor(PluginBuilder builder) : base(builder)
         {
+            Settings = GetSettings();
             BveHacker.ScenarioCreated += OnScenarioCreated;
             Native = Extensions.GetExtension<INative>();
             Native.BeaconPassed += OnBeaconPassed;
-            assistantText = new AssistantText(new AssistantSettings() { 
-                Scale = 40,
-            });
-            BveHacker.Assistants.Items.Add(assistantText);
+            if (Settings.VisibleAssistantText)
+            {
+                assistantText = new AssistantText(new AssistantSettings()
+                {
+                    Scale = 40,
+                });
+                BveHacker.Assistants.Items.Add(assistantText);
+            }
         }
 
         public override void Dispose()
         {
             BveHacker.ScenarioCreated -= OnScenarioCreated;
             Native.BeaconPassed -= OnBeaconPassed;
-            BveHacker.Assistants.Items.Remove(assistantText);
+            if (Settings.VisibleAssistantText)
+            {
+                BveHacker.Assistants.Items.Remove(assistantText);
+            }
         }
 
         public override void Tick(TimeSpan elapsed)
         {
-            assistantText.Text = $"{DoorStatus} {DoorRate:P}";
+            if (Settings.VisibleAssistantText)
+            {
+                assistantText.Text = $"{DoorStatus} {DoorRate:P}";
+            }
 
             CheckTeiichi();
             if (IsStartDoorClose())
@@ -130,7 +145,7 @@ namespace Akashiyaki01c.PlatformDoorPlugin
             CheckDoorSensor();
             if (DoorStatus == DoorStatus.Opening)
             {
-                DoorRate += 0.2 * elapsed.TotalSeconds;
+                DoorRate += (1 / Settings.PlatformDoorOpenTime) * elapsed.TotalSeconds;
                 if (DoorRate >= 1)
                 {
                     DoorRate = 1;
@@ -139,7 +154,7 @@ namespace Akashiyaki01c.PlatformDoorPlugin
             }
             else if (DoorStatus == DoorStatus.Closing)
             {
-                DoorRate -= 0.2 * elapsed.TotalSeconds;
+                DoorRate -= (1 / Settings.PlatformDoorCloseTime) * elapsed.TotalSeconds;
                 if (DoorRate <= 0)
                 {
                     DoorRate = 0;
@@ -173,8 +188,8 @@ namespace Akashiyaki01c.PlatformDoorPlugin
         }
         private void OnScenarioCreated(ScenarioCreatedEventArgs e)
         {
-            OpenSound = e.Scenario.Map.Sounds["open"];
-            CloseSound = e.Scenario.Map.Sounds["close"];
+            OpenSound = e.Scenario.Map.Sounds[Settings.OpenSoundId];
+            CloseSound = e.Scenario.Map.Sounds[Settings.CloseSoundId];
             OnScenarioCreatedStructure(e);
         }
         private void CheckTeiichi()
@@ -207,7 +222,7 @@ namespace Akashiyaki01c.PlatformDoorPlugin
         {
             if (vehicleDoorClosingTime != TimeSpan.Zero && 
                 DoorStatus == DoorStatus.Open && 
-                Native.VehicleState.Time - vehicleDoorClosingTime > new TimeSpan(0, 0, 2))
+                Native.VehicleState.Time - vehicleDoorClosingTime > TimeSpan.FromSeconds(Settings.PlatformDoorCloseDelay))
             {
                 vehicleDoorClosingTime = TimeSpan.Zero;
                 StartClose();
@@ -220,7 +235,7 @@ namespace Akashiyaki01c.PlatformDoorPlugin
                 StartClose();
             }
             else if (vehicleDoorClosingTime != TimeSpan.Zero && 
-                Native.VehicleState.Time - vehicleDoorClosingTime > new TimeSpan(0, 0, 2))
+                Native.VehicleState.Time - vehicleDoorClosingTime > TimeSpan.FromSeconds(Settings.PlatformDoorCloseDelay))
             {
                 vehicleDoorClosingTime = TimeSpan.Zero;
             }
@@ -254,6 +269,21 @@ namespace Akashiyaki01c.PlatformDoorPlugin
             var result = nowState == DoorState.Open && beforeDoorStateOpen == DoorState.Close;
             beforeDoorStateOpen = nowState;
             return result;
+        }
+
+        private Settings GetSettings()
+        {
+            try
+            {
+                var settingsPath = Path.Combine(Path.GetDirectoryName(Location), "PlatformDoorPlugin.xml");
+                var reader = new StreamReader(settingsPath);
+                var serializer = new XmlSerializer(typeof(Settings));
+                return (Settings)serializer.Deserialize(reader);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

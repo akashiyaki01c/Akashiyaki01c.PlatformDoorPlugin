@@ -21,12 +21,12 @@ namespace Akashiyaki01c.PlatformDoorPlugin
         private void OnScenarioCreatedStructure(ScenarioCreatedEventArgs e)
         {
             BaseDirectory = Path.GetDirectoryName(Location);
-            NoneBitmap = new Bitmap(Image.FromFile(Path.Combine(BaseDirectory, "none.png")));
-            OpenBitmap = new Bitmap(Image.FromFile(Path.Combine(BaseDirectory, "open.png")));
-            CloseBitmap = new Bitmap(Image.FromFile(Path.Combine(BaseDirectory, "close.png")));
+            NoneBitmap = new Bitmap(Image.FromFile(Path.Combine(BaseDirectory, Settings.NoneImagePath)));
+            OpenBitmap = new Bitmap(Image.FromFile(Path.Combine(BaseDirectory, Settings.OpenImagePath)));
+            CloseBitmap = new Bitmap(Image.FromFile(Path.Combine(BaseDirectory, Settings.CloseImagePath)));
 
-            Model targetModel = e.Scenario.Map.StructureModels["platformdoor"];
-            TextureHandle = targetModel.Register("platformdoor-none.png");
+            Model targetModel = e.Scenario.Map.StructureModels[Settings.DisplayStructureId];
+            TextureHandle = targetModel.Register(Settings.DisplayStructureTextureFile);
             GDIHelper = new GDIHelper(TextureHandle.Width, TextureHandle.Height);
         }
 

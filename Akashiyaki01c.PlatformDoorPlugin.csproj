@@ -56,6 +56,7 @@
       <HintPath>..\..\..\..\home\hir\Winapp\Bve5.8\Input Devices\BveEx\2.0\Extensions\DXDynamicTexture.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlatformDoor.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="DoorStatus.cs" />
     <Compile Include="PlatformDoor.Events.cs" />
     <Compile Include="PlatformDoor.Structure.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
