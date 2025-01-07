@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0EF28638-EB0E-4510-8EF0-5110B6BD868E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Akashiyaki01c.PlatformDoorPlugin</RootNamespace>
+    <AssemblyName>Akashiyaki01c.PlatformDoorPlugin</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="BveEx.PluginHost">
+      <HintPath>packages\BveEx.PluginHost.2.0.0\lib\BveEx.PluginHost.dll</HintPath>
+    </Reference>
+    <Reference Include="BveTypes">
+      <HintPath>packages\BveEx.PluginHost.2.0.0\lib\BveTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="FastCaching">
+      <HintPath>packages\BveEx.PluginHost.2.0.0\lib\FastCaching.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember">
+      <HintPath>packages\BveEx.PluginHost.2.0.0\lib\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="TypeWrapping">
+      <HintPath>packages\BveEx.PluginHost.2.0.0\lib\TypeWrapping.dll</HintPath>
+    </Reference>
+    <Reference Include="BveEx.CoreExtensions">
+      <HintPath>packages\BveEx.CoreExtensions.2.0.0\lib\BveEx.CoreExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Mackoy.IInputDevice">
+      <HintPath>..\..\..\..\home\hir\Winapp\Bve\BveTs5\Mackoy.IInputDevice.dll</HintPath>
+    </Reference>
+    <Reference Include="Mackoy.XmlInterfaces">
+      <HintPath>..\..\..\..\home\hir\Winapp\Bve\BveTs5\Mackoy.XmlInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="DXDynamicTexture">
+      <HintPath>..\..\..\..\home\hir\Winapp\Bve5.8\Input Devices\BveEx\2.0\Extensions\DXDynamicTexture.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PlatformDoor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DoorStatus.cs" />
+    <Compile Include="PlatformDoor.Events.cs" />
+    <Compile Include="PlatformDoor.Structure.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
