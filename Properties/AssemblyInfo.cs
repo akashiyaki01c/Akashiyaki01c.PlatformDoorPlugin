@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("Akashiyaki01c.PlatformDoorPlugin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("ホームドア再現プラグイン")]
+[assembly: AssemblyDescription("ホームドアの音/状態表示灯を再現します。")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("akashiyaki01c")]
+[assembly: AssemblyProduct("BveEX プラグイン")]
+[assembly: AssemblyCopyright("Copyright (c) akashiyaki01c")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
