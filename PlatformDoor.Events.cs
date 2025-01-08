@@ -58,6 +58,10 @@ namespace Akashiyaki01c.PlatformDoorPlugin
                 DoorStatus = DoorStatus.StopClosing;
                 StopOpen();
             }
+            else if (DoorStatus == DoorStatus.Close)
+            {
+                StartOpen();
+            }
         }
 
         /// <summary> 車掌が車両側の扉を閉めようとした際に呼ばれる関数 </summary>
