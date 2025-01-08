@@ -280,9 +280,9 @@ namespace Akashiyaki01c.PlatformDoorPlugin
                 var serializer = new XmlSerializer(typeof(Settings));
                 return (Settings)serializer.Deserialize(reader);
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw new BveFileLoadException(ex);
             }
         }
     }

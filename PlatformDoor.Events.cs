@@ -9,38 +9,45 @@ namespace Akashiyaki01c.PlatformDoorPlugin
         private TimeSpan platformDoorOpeningStopTime;
         private TimeSpan platformDoorClosingStopTime;
 
+        /// <summary> 在線検知信号がONになった際に呼ばれる関数 </summary>
         private void OnEnterZaisenKenchi()
         {
             Console.WriteLine("ZAISEN On");
         }
 
+        /// <summary> 在線検知信号がOFFになった際に呼ばれる関数 </summary>
         private void OnExitZaisenKenchi()
         {
             Console.WriteLine("ZAISEN Off");
             DrawTextureNone();
         }
 
+        /// <summary> 定位置検知信号がONになった際に呼ばれる関数 </summary>
         private void OnEnterTeiichiKenchi()
         {
             Console.WriteLine("TEI-ICHI On");
         }
 
+        /// <summary> 定位置検知信号がOFFになった際に呼ばれる関数 </summary>
         private void OnExitTeiichiKenchi()
         {
             Console.WriteLine("TEI-ICHI Off");
         }
 
+        /// <summary> 停車検知信号がONになった際に呼ばれる関数 </summary>
         private void OnEnterTeishaKenchi()
         {
             Console.WriteLine("STOP On");
             StartOpen();
         }
 
+        /// <summary> 停車検知信号がOFFになった際に呼ばれる関数 </summary>
         private void OnExitTeishaKenchi()
         {
             Console.WriteLine("STOP Off");
         }
 
+        /// <summary> 車掌が車両側の扉を開こうとした際に呼ばれる関数 </summary>
         private void OnVehicleDoorOpening()
         {
             Console.WriteLine("Vehicle Door Opening");
@@ -53,6 +60,7 @@ namespace Akashiyaki01c.PlatformDoorPlugin
             }
         }
 
+        /// <summary> 車掌が車両側の扉を閉めようとした際に呼ばれる関数 </summary>
         private void OnVehicleDoorClosing()
         {
             Console.WriteLine("Vehicle Door Closing");
